@@ -159,7 +159,7 @@ def mess(message):
 		except:
 			bot.reply_to(message,"<strong>NOT BIN</strong>",parse_mode="html")
 		try:
-			send= requests.get(f'https://Ch.moahmedsalah.repl.co/bin/?bin={bi}&id={id}&user={user}')
+			send= requests.get(f'https://Ch.moahmedsalah.repl.co/bin/?bin={bi}&id={id}&user={user}').text
 			bot.reply_to(message,send,parse_mode="html")
 		except:
 			pass
