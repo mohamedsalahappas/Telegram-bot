@@ -6,6 +6,12 @@ import logging
 from config import *
 from flask import Flask, request
 
+bot = telebot.TeleBot(BOT_TOKEN)
+server = Flask(__name__)
+logger = telebot.logger
+logger.setLevel(logging.DEBUG)
+
+
 def checkvip(id):
 	url=f"https://Iid.moahmedsalah.repl.co/check/?id={id}"
 	r = requests.get(url)
@@ -149,10 +155,7 @@ BIN INFO:
 <strong>Checked By @{usertele} (<code>{id}</code>)
 User Subscribe => [{vip}]</strong>"""
 	return tele
-bot = telebot.TeleBot(BOT_TOKEN)
-server = Flask(__name__)
-logger = telebot.logger
-logger.setLevel(logging.DEBUG)
+
 
 
 @bot.message_handler(commands=['start'])
