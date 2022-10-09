@@ -4,14 +4,12 @@ from telebot import types
 from user_agent import generate_user_agent
 import logging
 from config import *
-
+from flask import Flask, request
 
 bot = telebot.TeleBot(BOT_TOKEN)
 server = Flask(__name__)
 logger = telebot.logger
 logger.setLevel(logging.DEBUG)
-
-
 
 
 @bot.message_handler(commands=['start'])
@@ -545,7 +543,6 @@ def payseb(message):
   ↳ ON ✅ 
   ↳ $50 Charge
   </strong>""",parse_mode="html",reply_markup=key)
-
 		
 
 @server.route(f"/{BOT_TOKEN}", methods=["POST"])
