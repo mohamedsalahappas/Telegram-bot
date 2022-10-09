@@ -1,5 +1,10 @@
-import requests,telebot,random
+import requests,user_agent,json,flask,telebot,random,os,sys
+import telebot
 from telebot import types
+from user_agent import generate_user_agent
+import logging
+from config import *
+from flask import Flask, request
 from bin import bin,bincc
 from sk import check_sk
 from gen import gg
@@ -10,8 +15,13 @@ from proxyall import *
 from vipp import checkvip
 from random_user import geninfo
 from mchk import new_func,get_response_mchk
-tok = "5660138212:AAH7IOjks9VZoTxEGf3o72LBK0lNeanwsSg"
-bot=telebot.TeleBot(tok)
+
+bot = telebot.TeleBot(BOT_TOKEN)
+server = Flask(__name__)
+logger = telebot.logger
+logger.setLevel(logging.DEBUG)
+
+
 @bot.message_handler(commands=['start'])
 def run(message):
 	key = types.InlineKeyboardMarkup()
@@ -543,4 +553,16 @@ def payseb(message):
   ↳ ON ✅ 
   ↳ $50 Charge
   </strong>""",parse_mode="html",reply_markup=key)
-bot.polling(True)
+		
+
+@server.route(f"/{BOT_TOKEN}", methods=["POST"])
+def redirect_message():
+    json_string = request.get_data().decode("utf-8")
+    update = telebot.types.Update.de_json(json_string)
+    bot.process_new_updates([update])
+    return "!", 200
+
+if __name__ == "__main__":
+    bot.remove_webhook()
+    bot.set_webhook(url="https://boykdappi.herokuapp.com/"+str(BOT_TOKEN))
+    server.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
