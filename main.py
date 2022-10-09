@@ -11,6 +11,7 @@ server = Flask(__name__)
 logger = telebot.logger
 logger.setLevel(logging.DEBUG)
 
+
 @bot.message_handler(commands=['start'])
 def run(message):
 	key = types.InlineKeyboardMarkup()
@@ -24,7 +25,7 @@ def mess(message):
 	user = message.from_user.username
 	id = message.from_user.id
 	text = message.text
-	vip=checkvip(id)
+	vip = requests.get(f"https://Iid.moahmedsalah.repl.co/check/?id={id}").text
 	if '/cly' in text:
 		if vip in 'Premium':
 			print('Ok')
